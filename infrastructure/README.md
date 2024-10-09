@@ -2,13 +2,13 @@
 
 In the `infrastructure/` folder:
 
-1. `distrobox-host-exec podman kube play local-dev.yaml`
-2. `distrobox-host-exec podman run --pod=nats --rm -it --restart=no -v ./vols/nsc:/nsc:Z docker.io/natsio/nats-box:latest nats sub ">" --user auth --password auth`
-3. `distrobox-host-exec podman run --pod=nats --rm -it --restart=no -v ./vols/nsc:/nsc:Z docker.io/natsio/nats-box:latest nats --user foo --password bar pub test 'gello'`
+1. `podman kube play local-dev.yaml`
+2. `podman run --pod=nats --rm -it --restart=no -v ./vols/nsc:/nsc:Z docker.io/natsio/nats-box:latest nats sub ">" --user auth --password auth`
+3. `podman run --pod=nats --rm -it --restart=no -v ./vols/nsc:/nsc:Z docker.io/natsio/nats-box:latest nats --user foo --password bar pub test 'gello'`
 
 ## What is now running?
 
-1. Starts a NATS server using auth callout functionality
-2. Starts a Keycloak server (for testing AD integration)
-3. Listens on all events sent to NATS for debugging
-4. Publishes an authentication request using NATS
+* Starts a NATS server using auth callout functionality
+* Starts an instance of this repository to handle callout (see [the sample config](vols/etc-callout/config.edn) for the config used)
+* Listens on all events sent to NATS for debugging
+* Publishes an authentication request using NATS (will fail!)

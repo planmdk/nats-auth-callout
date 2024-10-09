@@ -17,6 +17,11 @@ spec:
           mountPath: /etc/nats
         - name: jwt-nats-vol
           mountPath: /jwt
+    - name: auth-callout
+      image: ghcr.io/planmdk/nats-auth-callout:latest
+      volumeMounts:
+        - name: etc-callout-vol
+          mountPath: /etc/app
     # - name: keycloak
     #   image: quay.io/keycloak/keycloak:26.0.0
     #   args: ["start-dev"]
@@ -36,4 +41,8 @@ spec:
     - name: jwt-nats-vol
       hostPath:
         path: ./vols/jwt-nats
+        type: DirectoryOrCreate
+    - name: etc-callout-vol
+      hostPath:
+        path: ./vols/etc-callout
         type: DirectoryOrCreate
