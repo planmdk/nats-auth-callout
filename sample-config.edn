@@ -1,0 +1,10 @@
+{:nats-url "nats://127.0.0.1:4222"
+ :service-name "AuthService"
+ :service-version "1.0.0"
+ :connection {:username "auth"
+              :password "auth"}
+ :oidc-endpoint-url "https://login.microsoftonline.com/145d6175-1c19-4f9f-9832-a50ff0ba3989/v2.0/.well-known/openid-configuration"
+ :user-keys {:nseed "SAADJKWBAMBDK4XBVOV7LACPRVAN42775VSEVA2FEEF4QWAWPBYQHH44M4"}
+ :application-account "APP"
+ :role-mappings {"Task.Write" {:pub {:allow ["protected.>"]}
+                               :sub {:allow [">"]}}}}

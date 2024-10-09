@@ -1,0 +1,16 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.0"}
+        org.clojure/data.json {:mvn/version "2.5.0"}
+        io.pedestal/pedestal.log {:mvn/version "0.7.1"}
+        io.nats/jnats {:mvn/version "2.16.13"}
+        io.nats/jwt-java {:mvn/version "2.0.1"}
+        org.slf4j/slf4j-simple {:mvn/version "2.0.11"}
+        com.github.sikt-no/clj-jwt {:mvn/version "0.5.98"}
+        }
+ :aliases {:dev {:extra-paths ["dev/src" "dev/resources"]
+                 :extra-deps {djblue/portal {:mvn/version "RELEASE"}
+                              cider/cider-nrepl {:mvn/version "RELEASE"}
+                              nrepl/nrepl {:mvn/version "RELEASE"}
+                              org.clojure/tools.namespace {:mvn/version "RELEASE"}
+                              refactor-nrepl/refactor-nrepl {:mvn/version "RELEASE"}}
+                 :main-opts ["-m" "nrepl.cmdline"]}}}

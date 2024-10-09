@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nats
+  labels:
+    app: nats-pod
+spec:
+  containers:
+    - name: nats-1
+      image: docker.io/library/nats:2.10
+      args: ["-c", "/etc/nats/nats-server.conf"]
+      ports:
+        - containerPort: 4222
+          hostPort: 4222
+      volumeMounts:
+        - name: etc-nats-vol
+          mountPath: /etc/nats
+        - name: jwt-nats-vol
+          mountPath: /jwt
+    # - name: keycloak
+    #   image: quay.io/keycloak/keycloak:26.0.0
+    #   args: ["start-dev"]
+    #   ports:
+    #     - containerPort: 8080
+    #       hostPort: 8080
+    #   env:
+    #     - name: KC_BOOTSTRAP_ADMIN_USERNAME
+    #       value: admin
+    #     - name: KC_BOOTSTRAP_ADMIN_PASSWORD
+    #       value: admin
+  volumes:
+    - name: etc-nats-vol
+      hostPath:
+        path: ./vols/etc-nats
+        type: DirectoryOrCreate
+    - name: jwt-nats-vol
+      hostPath:
+        path: ./vols/jwt-nats
+        type: DirectoryOrCreate
