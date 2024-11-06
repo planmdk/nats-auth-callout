@@ -82,11 +82,25 @@
      :sub/allow sub-allow
      :sub/deny sub-deny}))
 
+(defn default-deny-all
+  "Modify the user permissions map to default to denying all requests."
+  [user-permissions]
+  (log/info :user/permissions user-permissions)
+  (cond-> user-permissions
+    (and (empty? (:pub/allow user-permissions))
+         (empty? (:pub/deny user-permissions)))
+    (update :pub/deny conj ">")
+
+    (and (empty? (:sub/allow user-permissions))
+         (empty? (:sub/deny user-permissions)))
+    (update :sub/deny conj ">")))
+
 (defn ad-jwt->nats-jwt
   "Translate the JWT issued by the OIDC server into a NATS JWT."
   [ad-jwt authorization-request config]
   (log/info :ad-jwt ad-jwt)
-  (let [permissions (user-permissions (:roles ad-jwt) (:role-mappings config))
+  (let [permissions (-> (user-permissions (:roles ad-jwt) (:role-mappings config))
+                        default-deny-all)
         user-claim (.. (UserClaim.)
                        (pub (.. (Permission.)
                                 (allow (:pub/allow permissions []))
@@ -187,10 +201,8 @@
       (.get (:future service)))))
 
 (comment
-  (def callout-service (auth-callout-service (read-config "sample-config.edn")))
+  (def callout-service (auth-callout-service (update  (read-config "sample-config.edn") :user-keys nseed->keys)))
 
   (.stop (:service callout-service))
 
-  (log/warn :msg "foo")
-
-  (.keySet (Thread/getAllStackTraces)))
+  (log/warn :msg "foo"))

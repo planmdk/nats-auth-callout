@@ -48,13 +48,6 @@ enable public flows (might be Azure AD specific).
 
 `podman run --pod=nats --rm -it --restart=no -v ./vols/nsc:/nsc:Z docker.io/natsio/nats-box:latest nats --user foo --password $JWT_TOKEN pub test 'gello'`
 
-## Caveats
-
-This auth callout has a quite insensible default at the moment: If a
-user does not have one of the roles in the config, they will be
-allowed full access! This is quite easy to fix, I just haven't done so
-yet.
-
 ## Running
 
 The auth callout is published as an OCI image to
